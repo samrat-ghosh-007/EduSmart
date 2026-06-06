@@ -13,45 +13,30 @@ const coverRoute = require("./routes/cover.route");
 const app = express();
 
 const allowedOrigins = [
-  'https://edu-smart-green.vercel.app', // Your frontend URL
-  'http://localhost:5173'              // Your local Vite development URL
+  'https://edu-smart-green.vercel.app',  // Your production Vercel frontend
+  'http://localhost:5173'                // Your local Vite development port
 ];
 
-// app.use((req, res, next) => {
-//   // Dynamically reflect the origin if it's your frontend, or default to it
-//   const origin = req.headers.origin;
-//   if (origin && origin.includes('edusmart')) {
-//     res.header('Access-Control-Allow-Origin', origin);
-//   }
-  
-//   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//   res.header('Access-Control-Allow-Credentials', 'true');
-  
-//   // IMMEDIATELY respond to the browser's security check (OPTIONS method)
-//   if (req.method === 'OPTIONS') {
-//     return res.sendStatus(200);
-//   }
-  
-//   next();
-// });
-
+// 2. Apply global CORS configuration
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
+    // Allow server-to-server or tools like Postman (which don't send an origin header)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      return callback(new Error('CORS Policy block: Origin not allowed'), false);
     }
   },
-  credentials: true, // Allow cookies or authorization headers if needed
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
 }));
 
+// 3. CRITICAL: Explicitly handle preflight OPTIONS requests globally
+// This ensures multipart/form-data file upload requests clear the security check instantly
+app.options('*', cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use("/api/generate", generateRoute);
