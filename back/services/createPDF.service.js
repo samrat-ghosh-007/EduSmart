@@ -59,36 +59,37 @@ const { generateResumeHTML } = require("../templates/resume.template");
 // };
 
 
+const path = require('path');
+const puppeteer = require('puppeteer-core'); // Keeping your puppeteer-core dependency
+
 exports.generatePDF = async (data) => {
   const html = generateResumeHTML(data);
-
   const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
 
-  const launchOptions = {
+  let launchOptions = {
     headless: true,
-    args: [
-      "--no-sandbox", 
-      "--disable-setuid-sandbox", 
-      "--disable-dev-shm-usage",
-      "--disable-gpu"
-    ]
+    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
   };
 
   if (!isProduction) {
-    // 1. Your Local Windows Paths for puppeteer-core
+    // 1. Local Windows Development configuration
     launchOptions.executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe";
   } else {
-    // 2. The Native Ubuntu/Linux execution path for chromium on Render
-    launchOptions.executablePath = "/usr/bin/chromium-browser";
+    // 2. Production Render configuration using the lightweight pack
+    const chromium = require('@sparticuz/chromium');
+    
+    launchOptions.executablePath = await chromium.executablePath();
+    launchOptions.args = [...launchOptions.args, ...chromium.args];
   }
 
-  // puppeteer-core will now successfully spawn the targeted browser
   const browser = await puppeteer.launch(launchOptions);
-
   const page = await browser.newPage();
+  
   await page.setContent(html, { waitUntil: "networkidle0" });
 
   const fileName = `resume-${Date.now()}.pdf`;
+  
+  // Keep the path relative to your backend execution directory
   const filePath = path.join(__dirname, fileName);
 
   await page.pdf({
@@ -98,6 +99,5 @@ exports.generatePDF = async (data) => {
   });
 
   await browser.close();
-
   return filePath; 
 };
