@@ -71,11 +71,11 @@ exports.generatePDF = async (data) => {
   };
 
   if (!isProduction) {
-    // 1. Local Windows Development
+    // Local Windows Development
     launchOptions.executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe";
   } else {
-    // 2. Production Render Configuration (UPDATED TO MATCH YOUR PACKAGE.JSON)
-    const chromium = require('@sparticuz/chromium-min'); // <-- Added '-min' here
+    // Production Render Configuration (SWITCHED TO THE FULL PACK)
+    const chromium = require('@sparticuz/chromium'); // <-- Removed '-min'
     
     launchOptions.executablePath = await chromium.executablePath();
     launchOptions.args = [...launchOptions.args, ...chromium.args];
