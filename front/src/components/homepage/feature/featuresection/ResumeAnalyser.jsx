@@ -13,7 +13,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 // Use environment variable for backend URL
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://edusmart-aq07.onrender.com/";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://edusmart-aq07.onrender.com";
 
 export default function ResumeAnalyser() {
   const [file, setFile] = useState(null);
@@ -369,7 +369,7 @@ export default function ResumeAnalyser() {
                   className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg"
                 >
                   <p className="text-sm text-yellow-700">
-                    <strong>Backend CORS fix needed:</strong> Make sure your backend has CORS enabled for https://edusmart-aq07.onrender.com/
+                    <strong>Backend CORS fix needed:</strong> Make sure your backend has CORS enabled for https://edusmart-aq07.onrender.com
                   </p>
                 </motion.div>
               )}
