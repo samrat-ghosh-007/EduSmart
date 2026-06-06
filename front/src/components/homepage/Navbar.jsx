@@ -102,7 +102,7 @@ function Navbar({ isMenuOpen, setIsMenuOpen }) {
 
           {/* Premium Get Started Button */}
           <Link
-            to="/login"
+            to="/features"
             className="group relative inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-indigo-500/20 transition-all duration-300 overflow-hidden"
           >
             {/* Animated background effect */}
