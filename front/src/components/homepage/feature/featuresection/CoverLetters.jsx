@@ -14,7 +14,7 @@ import {
   EyeIcon
 } from "@heroicons/react/24/outline";
 
-const BACKEND_URL = "https://edusmart-aq07.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function CoverLetters() {
   const [formData, setFormData] = useState({
