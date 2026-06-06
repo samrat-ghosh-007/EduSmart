@@ -59,8 +59,7 @@ const { generateResumeHTML } = require("../templates/resume.template");
 // };
 
 
-const path = require('path');
-const puppeteer = require('puppeteer-core'); // Keeping your puppeteer-core dependency
+
 
 exports.generatePDF = async (data) => {
   const html = generateResumeHTML(data);
