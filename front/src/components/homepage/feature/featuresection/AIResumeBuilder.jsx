@@ -17,6 +17,8 @@ import {
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 
+const BACKEND_URL = "https://edusmart-aq07.onrender.com";
+
 const AIResumeBuilder = () => {
   const [activeTab, setActiveTab] = useState('create');
   const [selectedTemplate, setSelectedTemplate] = useState('modern');
