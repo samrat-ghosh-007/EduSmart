@@ -369,7 +369,7 @@ export default function ResumeAnalyser() {
                   className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg"
                 >
                   <p className="text-sm text-yellow-700">
-                    <strong>Backend CORS fix needed:</strong> Make sure your backend has CORS enabled for https://edusmart-aq07.onrender.com
+                    <strong>Backend CORS fix needed:</strong> Make sure your backend has CORS enabled for https://edu-smart-green.vercel.app
                   </p>
                 </motion.div>
               )}

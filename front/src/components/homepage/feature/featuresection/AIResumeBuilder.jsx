@@ -281,7 +281,7 @@ const AIResumeBuilder = () => {
       console.log('Sending data to backend:', cleanResumeData);
 
       // Make API call to your backend
-      const response = await axios.post('/api/resume/generate', cleanResumeData, {
+      const response = await axios.post(`${BACKEND_URL}/api/resume/generate`, cleanResumeData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -361,7 +361,7 @@ const AIResumeBuilder = () => {
       
       console.log('Sending test data:', testData);
       
-      const response = await axios.post('/api/resume/generate', testData, {
+      const response = await axios.post(`${BACKEND_URL}/api/resume/generate`, testData, {
         headers: { 'Content-Type': 'application/json' },
         timeout: 60000,
       });
