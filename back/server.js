@@ -12,7 +12,26 @@ const coverRoute = require("./routes/cover.route");
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  'https://edusmart-aq07.onrender.com', // Your frontend URL
+  'http://localhost:5173'              // Your local Vite development URL
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Allow cookies or authorization headers if needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.use(express.json());
 app.use("/api/generate", generateRoute);
