@@ -29,16 +29,19 @@ exports.generateCoverLetterController = async (req, res) => {
     });
 
     
-    const pdfBuffer = await generatePDFBuffer(coverLetter);
+    const pdfBuffer = await pdfService.generatePDFBuffer(htmlContent);
 
-    
-    const pdfUrl = await uploadPDF(pdfBuffer);
+// 2. Await the stream upload promise response
+const cloudinaryResult = await cloudinaryService.uploadPDF(pdfBuffer);
 
-   
-    res.status(200).json({
-      success: true,
-      downloadLink: pdfUrl,
-    });
+// 3. Return the payload matching your frontend keys
+return res.status(200).json({
+  success: true,
+  message: "Cover letter generated successfully!",
+  downloadLink: {
+    secure_url: cloudinaryResult.secure_url
+   }
+  }) // Matches what your frontend checks for!
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

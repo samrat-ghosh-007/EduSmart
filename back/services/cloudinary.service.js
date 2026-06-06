@@ -60,16 +60,25 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-exports.uploadPDF = async (filePath) => {
+exports.uploadPDF = (pdfBuffer, folderName = "cover_letters") => {
+  return new Promise((resolve, reject) => {
+    // 1. Create a dynamic upload stream from Cloudinary
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: "raw", // CRITICAL: Tells Cloudinary this is a non-image file type (PDF)
+        folder: folderName,
+        access_mode: "public"
+      },
+      (error, result) => {
+        if (error) {
+          console.error("Cloudinary upload stream error:", error);
+          return reject(error);
+        }
+        resolve(result); // This contains secure_url, url, etc.
+      }
+    );
 
-  const result = await cloudinary.uploader.upload(filePath, {
-    resource_type: "raw",
-    folder: "resumes",
-    type: "upload",         
-    access_mode: "public"    
+    // 2. Convert your Uint8Array/Buffer into a readable node stream and pipe it to Cloudinary
+    streamifier.createReadStream(pdfBuffer).pipe(uploadStream);
   });
-
-  fs.unlinkSync(filePath);
-
-  return result;
 };
