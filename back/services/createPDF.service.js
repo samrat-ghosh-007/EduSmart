@@ -71,11 +71,11 @@ exports.generatePDF = async (data) => {
   };
 
   if (!isProduction) {
-    // 1. Local Windows Development configuration
+    // 1. Local Windows Development
     launchOptions.executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe";
   } else {
-    // 2. Production Render configuration using the lightweight pack
-    const chromium = require('@sparticuz/chromium');
+    // 2. Production Render Configuration (UPDATED TO MATCH YOUR PACKAGE.JSON)
+    const chromium = require('@sparticuz/chromium-min'); // <-- Added '-min' here
     
     launchOptions.executablePath = await chromium.executablePath();
     launchOptions.args = [...launchOptions.args, ...chromium.args];
@@ -87,8 +87,6 @@ exports.generatePDF = async (data) => {
   await page.setContent(html, { waitUntil: "networkidle0" });
 
   const fileName = `resume-${Date.now()}.pdf`;
-  
-  // Keep the path relative to your backend execution directory
   const filePath = path.join(__dirname, fileName);
 
   await page.pdf({
