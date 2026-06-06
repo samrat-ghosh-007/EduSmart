@@ -58,32 +58,38 @@ const { generateResumeHTML } = require("../templates/resume.template");
 //   return filePath; // return file path instead of buffer
 // };
 
+
 exports.generatePDF = async (data) => {
   const html = generateResumeHTML(data);
 
-  // Check if we are running on Render (Render sets the NODE_ENV or RENDER env var)
   const isProduction = process.env.NODE_ENV === 'production' || process.env.RENDER;
 
   const launchOptions = {
     headless: true,
-    args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+    args: [
+      "--no-sandbox", 
+      "--disable-setuid-sandbox", 
+      "--disable-dev-shm-usage",
+      "--disable-gpu"
+    ]
   };
 
-  // Only use the hardcoded Windows path if we are running locally
   if (!isProduction) {
-    launchOptions.executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe" || "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe";
+    // 1. Your Local Windows Paths for puppeteer-core
+    launchOptions.executablePath = "C:/Program Files/Google/Chrome/Application/chrome.exe";
+  } else {
+    // 2. The Native Ubuntu/Linux execution path for chromium on Render
+    launchOptions.executablePath = "/usr/bin/chromium-browser";
   }
 
+  // puppeteer-core will now successfully spawn the targeted browser
   const browser = await puppeteer.launch(launchOptions);
 
   const page = await browser.newPage();
   await page.setContent(html, { waitUntil: "networkidle0" });
 
   const fileName = `resume-${Date.now()}.pdf`;
-  
-  // Render filesystem note: writing to __dirname is fine, 
-  // but remember Render's disk is ephemeral unless you use a persistent disk.
-  const filePath = path.join(__dirname, "../../", fileName);
+  const filePath = path.join(__dirname, fileName);
 
   await page.pdf({
     path: filePath,
