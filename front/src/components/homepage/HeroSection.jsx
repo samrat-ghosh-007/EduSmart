@@ -28,7 +28,7 @@ function HeroSection() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center lg:justify-start">
             <Link
-              to="/signup"
+              to="/features"
               className="bg-white text-indigo-600 px-6 md:px-8 py-3 md:py-4 rounded-xl font-semibold text-base md:text-lg hover:shadow-2xl hover:scale-105 transition-all flex items-center gap-2"
             >
               Get Started <ArrowRightIcon className="w-4 h-4 md:w-5 md:h-5" />
