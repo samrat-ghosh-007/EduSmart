@@ -5,7 +5,7 @@ const {analyzeResume} = require("../controllers/analyze.controller");
 
 
 router.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "https://edusmart-aq07.onrender.com");
+    res.header("Access-Control-Allow-Origin", "https://edu-smart-green.vercel.app");
     res.header("Access-Control-Allow-Headers", "Content-Type");
     if (req.method === "OPTIONS") {
         return res.sendStatus(200);
