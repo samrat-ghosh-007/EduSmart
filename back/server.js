@@ -13,7 +13,7 @@ const coverRoute = require("./routes/cover.route");
 const app = express();
 
 const allowedOrigins = [
-  'https://edu-smart-green.vercel.app/', // Your frontend URL
+  'https://edu-smart-green.vercel.app', // Your frontend URL
   'http://localhost:5173'              // Your local Vite development URL
 ];
 
