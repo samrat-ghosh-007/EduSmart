@@ -29,7 +29,7 @@ exports.generateCoverLetterController = async (req, res) => {
     });
 
     
-    const pdfBuffer = await pdfService.generatePDFBuffer(htmlContent);
+    const pdfBuffer = await generatePDFBuffer(coverLetter);
 
 // 2. Await the stream upload promise response
 const cloudinaryResult = await cloudinaryService.uploadPDF(pdfBuffer);
