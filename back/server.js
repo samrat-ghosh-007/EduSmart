@@ -1,3 +1,4 @@
+const cors=require('cors');
 require("dotenv").config();
 const express = require("express");
 const generateRoute = require("./routes/generate.route");
@@ -11,7 +12,7 @@ const coverRoute = require("./routes/cover.route");
 
 const app = express();
 
-
+app.use(cors());
 
 app.use(express.json());
 app.use("/api/generate", generateRoute);
