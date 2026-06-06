@@ -1,7 +1,6 @@
 const { extractText } = require("../services/pdf.service");
 const { generateCoverLetter } = require("../services/coverLetter.service");
 const { generatePDFBuffer } = require("../services/pdfForCover.service");
-const { pdfService } = require("../services/pdf.service");
 const cloudinaryService = require("../services/cloudinary.service");
 
 
